@@ -10,10 +10,14 @@
 </head>
 <body>
     <h1>Lista de Tareas</h1>
-    <input type="text" id="entradaTarea" placeholder="Agregar tarea">
-    <button onclick="agregarTarea()">Añadir</button>
-    <button onclick="eliminarCompletadas()">Eliminar Completadas</button>
-    <ul id="listaTareas"></ul>
+    <div class="contenedor">
+        <div class="controles">
+            <input type="text" id="entradaTarea" placeholder="Agregar tarea">
+            <button onclick="agregarTarea()">Añadir</button>
+            <button class="eliminar" onclick="eliminarCompletadas()">Eliminar completadas</button>
+        </div>
+        <ul id="listaTareas"></ul>
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>

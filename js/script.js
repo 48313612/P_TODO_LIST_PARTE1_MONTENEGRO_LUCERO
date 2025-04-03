@@ -41,7 +41,7 @@ function actualizarTareas() {
         li.innerHTML = `
             <input type="checkbox" onclick="alternarTarea(${indice})" ${tarea.completada ? 'checked' : ''}>
             <span class="${tarea.completada ? 'completada' : ''}">${tarea.texto}</span>
-            <button onclick="eliminarTarea(${indice})">Eliminar</button>
+            <button onclick="eliminarTarea(${indice})"> Eliminar</button>
         `;
         lista.appendChild(li);
     });
