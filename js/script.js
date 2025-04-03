@@ -1,76 +1,48 @@
-function validarForm() {
-    let notaMatematica = document.getElementById('notaMatematica').value;
-    let notaLengua = document.getElementById('notaLengua').value;
-    let notaEFSI = document.getElementById('notaEFSI').value;
+let tareas = JSON.parse(localStorage.getItem('tareas')) || [];
+actualizarTareas();
 
-    let notaMatematicaValida = validacion(notaMatematica);
-    let notaLenguaValida = validacion(notaLengua);
-    let notaEFSIValida = validacion(notaEFSI);
-
-    document.getElementById('notaMatematica').style.backgroundColor = 
-        notaMatematica === '' ? '' : (notaMatematicaValida ? "#D6E5BD" : "#ff686b");
-    
-    document.getElementById('notaLengua').style.backgroundColor = 
-        notaLengua === '' ? '' : (notaLenguaValida ? "#D6E5BD" : "#ff686b");
-    
-    document.getElementById('notaEFSI').style.backgroundColor = 
-        notaEFSI === '' ? '' : (notaEFSIValida ? "#D6E5BD" : "#ff686b");
-
-}
-
-function validacion(datoAvalidar) {
-
-    const tieneLetra = /(?:[A-Z])/.test(datoAvalidar) || /(?:[a-z])/.test(datoAvalidar);
-    const tieneNum = /(?:\d)/.test(datoAvalidar);
-
-    let esValido = false;
-
-    if (datoAvalidar !== '' && datoAvalidar <= 10 && datoAvalidar >= 1 && tieneNum && !tieneLetra) {
-        esValido = true;
-    }
-
-    return esValido;
-}
-
-function calcularPromedio() {
-    let notaMatematica = parseFloat(document.getElementById('notaMatematica').value);
-    let notaLengua = parseFloat(document.getElementById('notaLengua').value);
-    let notaEFSI = parseFloat(document.getElementById('notaEFSI').value);
-
-    let promedio = (notaEFSI + notaLengua + notaMatematica) / 3;
-    let mensaje = `El promedio es de ${promedio}`;
-
-    let alertaVerde = document.getElementById('alertaVerde');
-    let alertaRojo = document.getElementById('alertaRojo');
-
-    if (promedio >= 6) {
-        alertaVerde.innerHTML = mensaje;
-        alertaVerde.style.display = "block";
-    } else {
-        alertaRojo.innerHTML = mensaje;
-        alertaRojo.style.display = "block";
+function agregarTarea() {
+    const input = document.getElementById('entradaTarea');
+    const texto = input.value.trim();
+    if (texto) {
+        tareas.push({ texto, completada: false, creadaEn: Date.now(), completadaEn: null });
+        guardarYactualizar();
+        input.value = '';
     }
 }
 
-function mostrarMayorNota() {
-    let notaMatematica = parseFloat(document.getElementById('notaMatematica').value);
-    let notaLengua = parseFloat(document.getElementById('notaLengua').value);
-    let notaEFSI = parseFloat(document.getElementById('notaEFSI').value);
+function alternarTarea(indice) {
+    tareas[indice].completada = !tareas[indice].completada;
+    tareas[indice].completadaEn = tareas[indice].completada ? Date.now() : null;
+    guardarYactualizar();
+}
 
-    let notas = [
-        { materia: "Matematica", nota: notaMatematica },
-        { materia: "Lengua", nota: notaLengua },
-        { materia: "EFSI", nota: notaEFSI }
-    ];
+function eliminarTarea(indice) {
+    tareas.splice(indice, 1);
+    guardarYactualizar();
+}
 
-    let mayorNota = Math.max(...notas.map(nota => nota.nota));
+function eliminarCompletadas() {
+    tareas = tareas.filter(tarea => !tarea.completada);
+    guardarYactualizar();
+}
 
-    let materiasConMayorNota = notas.filter(nota => nota.nota === mayorNota);
+function guardarYactualizar() {
+    localStorage.setItem('tareas', JSON.stringify(tareas));
+    actualizarTareas();
+}
 
-    let materias = materiasConMayorNota.map(nota => nota.materia).join(", ");
-    
-    let mensaje = `Las materias con la mayor nota (${mayorNota}) son: ${materias}`;
-    let alertaAzul = document.getElementById('alertaAzul');
-    alertaAzul.innerHTML = mensaje;
-    alertaAzul.style.display = "block";
+function actualizarTareas() {
+    const lista = document.getElementById('listaTareas');
+    lista.innerHTML = '';
+    tareas.forEach((tarea, indice) => {
+        const li = document.createElement('li');
+        li.className = tarea.completada ? 'completada' : '';
+        li.innerHTML = `
+            <input type="checkbox" onclick="alternarTarea(${indice})" ${tarea.completada ? 'checked' : ''}>
+            <span class="${tarea.completada ? 'completada' : ''}">${tarea.texto}</span>
+            <button onclick="eliminarTarea(${indice})">Eliminar</button>
+        `;
+        lista.appendChild(li);
+    });
 }

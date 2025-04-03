@@ -9,28 +9,11 @@
     <title>TO DO List</title>
 </head>
 <body>
-    <div class="container form">
-        <form id="form" class="form">
-            <div class="form-group">
-                <label for="tarea">Ingrese una nueva tarea: </label>
-                <input type="text" id="tarea" class="form-control" oninput="agregarTarea()">
-            </div>
-            <div class="form-group">
-                <label for="notaLengua">Ingrese la nota de lengua: </label>
-                <input type="text" id="notaLengua" class="form-control" oninput="validarForm()">
-            </div>
-            <div class="form-group">
-                <label for="notaEFSI">Ingrese la nota de EFSI: </label>
-                <input type="text" id="notaEFSI" class="form-control" oninput="validarForm()">
-            </div>
-            <button type="button" class="btn btn-primary" onclick="calcularPromedio()">Calcular promedio</button>
-            <div class="alert alert-success" role="alert" id="alertaVerde" style="display: none;"> </div>
-            <div class="alert alert-danger" id="alertaRojo" style="display: none;"> </div>
-
-            <button type="button" class="btn btn-primary" onclick="mostrarMayorNota()">Mostrar la materia con mayor nota</button>
-            <div class="alert alert-primary" role="alert" id="alertaAzul" style="display: none;"> </div>
-        </form>
-    </div>
+    <h1>Lista de Tareas</h1>
+    <input type="text" id="entradaTarea" placeholder="Agregar tarea">
+    <button onclick="agregarTarea()">Añadir</button>
+    <button onclick="eliminarCompletadas()">Eliminar Completadas</button>
+    <ul id="listaTareas"></ul>
     <script src="js/script.js"></script>
 </body>
 </html>
