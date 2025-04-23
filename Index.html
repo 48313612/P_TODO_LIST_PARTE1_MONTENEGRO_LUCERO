@@ -10,13 +10,19 @@
 </head>
 <body>
     <h1>Lista de Tareas</h1>
-    <div class="contenedor">
-        <div class="controles">
-            <input type="text" id="entradaTarea" placeholder="Agregar tarea">
-            <button onclick="agregarTarea()">Añadir</button>
-            <button class="eliminar" onclick="eliminarCompletadas()">Eliminar completadas</button>
-        </div>
-        <ul id="listaTareas"></ul>
+    <div class="controles">
+        <input type="text" id="entradaTarea">
+        <button onclick="agregarTarea()">Agregar tarea</button>
+        <button class="eliminar" onclick="eliminarCompletadas()">Eliminar completadas</button>
+        <select id="filtro" onchange="actualizarTareas()">
+            <option value="todas">Todas</option>
+            <option value="completadas">Completadas</option>
+            <option value="pendientes">Pendientes</option>
+        </select>
+        <button onclick="mostrarTareaMasRapida()">Tarea más rápida</button>
+    </div>
+    <div>
+        <ul id="listaTareas" class="list-group mt-3"></ul>
     </div>
     <script src="js/script.js"></script>
 </body>
