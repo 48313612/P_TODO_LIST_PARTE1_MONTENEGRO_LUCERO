@@ -70,16 +70,22 @@ const mostrarTareaMasRapida = () => {
     const tareasCompletadas = tareas.filter(({ completada, creadaEn, completadaEn }) => completada && completadaEn && creadaEn);
     if (tareasCompletadas.length === 0) {
         alert('No hay tareas completadas.');
-        return;
     }
 
-    const tareaRapida = tareasCompletadas.reduce((rapida, actual) => {
-        const tiempoRapida = rapida.completadaEn - rapida.creadaEn;
-        const tiempoActual = actual.completadaEn - actual.creadaEn;
-        return tiempoActual < tiempoRapida ? actual : rapida;
-    });
+    let tareaRapida = tareasCompletadas[0];
+    let tiempoRapida = tareaRapida.completadaEn - tareaRapida.creadaEn;
 
-    const tiempoSegundos = ((tareaRapida.completadaEn - tareaRapida.creadaEn) / 1000).toFixed(2);
+    for (let i = 1; i < tareasCompletadas.length; i++) {
+        const actual = tareasCompletadas[i];
+        const tiempoActual = actual.completadaEn - actual.creadaEn;
+        
+        if (tiempoActual < tiempoRapida) {
+            tareaRapida = actual;
+            tiempoRapida = tiempoActual;
+        }
+    }
+
+    const tiempoSegundos = (tiempoRapida / 1000).toFixed(2);
     alert(`La tarea completada más rápido fue "${tareaRapida.texto}" en ${tiempoSegundos} segundos.`);
 };
 
